@@ -23,9 +23,9 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    const success = await login(email, password);
+    const result = await login(email, password);
     
-    if (success) {
+    if (result.success) {
       toast({
         title: "Bem-vindo de volta!",
         description: "Login realizado com sucesso.",
@@ -34,7 +34,7 @@ const Login = () => {
     } else {
       toast({
         title: "Erro no login",
-        description: "Email ou senha incorretos.",
+        description: result.error || "Email ou senha incorretos.",
         variant: "destructive",
       });
     }
