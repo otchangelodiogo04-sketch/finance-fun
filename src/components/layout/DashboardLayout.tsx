@@ -16,6 +16,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
+ import { RANK_CONFIG, RankType, getProgressToNextRank } from "@/components/RankProgress";
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -42,15 +43,9 @@ const DashboardLayout = () => {
     navItems.splice(4, 0, { to: "/dashboard/stock", icon: Package, label: "Stock" });
   }
 
-  const getRankColor = (rank: string) => {
-    switch (rank) {
-      case "S": return "text-rank-s";
-      case "A": return "text-rank-a";
-      case "B": return "text-rank-b";
-      case "C": return "text-rank-c";
-      default: return "text-rank-d";
-    }
-  };
+   const userRank = (user?.rank || "D") as RankType;
+   const rankConfig = RANK_CONFIG[userRank];
+   const { progress } = getProgressToNextRank(user?.points || 0, userRank);
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -89,20 +84,27 @@ const DashboardLayout = () => {
         {/* User info */}
         <div className="p-4 border-b border-sidebar-border">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+             <div className={cn(
+               "w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br",
+               rankConfig.gradient
+             )}>
               {user?.avatar ? (
                 <img src={user.avatar} alt="" className="w-10 h-10 rounded-full object-cover" />
               ) : (
-                <User className="w-5 h-5 text-primary" />
+                 <span className="text-sm font-bold text-white">{user?.rank}</span>
               )}
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-medium truncate">{user?.username}</p>
-              <div className="flex items-center gap-2 text-sm">
-                <span className={cn("font-bold", getRankColor(user?.rank || "D"))}>
-                  Rank {user?.rank}
-                </span>
-                <span className="text-muted-foreground">• {user?.points} pts</span>
+               <div className="text-sm">
+                 <span className="text-muted-foreground">{user?.points?.toLocaleString()} pts</span>
+               </div>
+               {/* Mini progress bar */}
+               <div className="mt-1 h-1 bg-sidebar-accent rounded-full overflow-hidden">
+                 <div 
+                   className={cn("h-full rounded-full bg-gradient-to-r", rankConfig.gradient)}
+                   style={{ width: `${progress}%` }}
+                 />
               </div>
             </div>
           </div>
@@ -157,10 +159,13 @@ const DashboardLayout = () => {
           <img src={logo} alt="Finance" className="w-8 h-8" />
           <span className="font-display font-bold text-gradient">Finance</span>
           <div className="ml-auto flex items-center gap-2 text-sm">
-            <span className={cn("font-bold", getRankColor(user?.rank || "D"))}>
-              {user?.rank}
-            </span>
-            <span className="text-muted-foreground">{user?.points} pts</span>
+             <div className={cn(
+               "w-7 h-7 rounded-lg flex items-center justify-center bg-gradient-to-br text-xs font-bold text-white",
+               rankConfig.gradient
+             )}>
+               {user?.rank}
+             </div>
+             <span className="text-muted-foreground">{user?.points?.toLocaleString()}</span>
           </div>
         </header>
 
