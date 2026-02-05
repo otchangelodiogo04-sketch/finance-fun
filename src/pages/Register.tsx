@@ -57,7 +57,7 @@ const Register = () => {
 
     setIsLoading(true);
 
-    const success = await register({
+    const result = await register({
       email,
       username,
       password,
@@ -65,16 +65,25 @@ const Register = () => {
       profile,
     });
 
-    if (success) {
-      toast({
-        title: "Conta criada!",
-        description: "Bem-vindo ao Finance!",
-      });
-      navigate("/dashboard");
+    if (result.success) {
+      if (result.error) {
+        // Email confirmation required
+        toast({
+          title: "Conta criada!",
+          description: result.error,
+        });
+        navigate("/login");
+      } else {
+        toast({
+          title: "Conta criada!",
+          description: "Bem-vindo ao Finance!",
+        });
+        navigate("/dashboard");
+      }
     } else {
       toast({
         title: "Erro",
-        description: "Não foi possível criar a conta.",
+        description: result.error || "Não foi possível criar a conta.",
         variant: "destructive",
       });
     }

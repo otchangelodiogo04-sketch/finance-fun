@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import type { User as SupabaseUser, Session } from "@supabase/supabase-js";
 
 export type UserProfile = "crianca" | "jovem" | "pais";
 
@@ -23,11 +25,12 @@ interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
-  register: (data: RegisterData) => Promise<boolean>;
-  logout: () => void;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  register: (data: RegisterData) => Promise<{ success: boolean; error?: string }>;
+  logout: () => Promise<void>;
   updateUser: (data: Partial<User>) => void;
   addPoints: (points: number) => void;
+  refreshProfile: () => Promise<void>;
 }
 
 interface RegisterData {
@@ -40,107 +43,208 @@ interface RegisterData {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Demo users for testing
-const DEMO_USERS: Record<string, { password: string; user: User }> = {
-  "demo@finance.app": {
-    password: "demo123",
-    user: {
-      id: "1",
-      email: "demo@finance.app",
-      username: "DemoUser",
-      age: 25,
-      profile: "jovem",
-      points: 1500,
-      rank: "B",
-      lessonsCompleted: 12,
-      createdAt: new Date().toISOString(),
-    },
-  },
-};
-
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [session, setSession] = useState<Session | null>(null);
 
-  useEffect(() => {
-    // Check for stored session
-    const storedUser = localStorage.getItem("finance_user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+  // Fetch user profile from database
+  const fetchProfile = async (userId: string): Promise<User | null> => {
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("user_id", userId)
+        .single();
+
+      if (error) {
+        console.error("Error fetching profile:", error);
+        return null;
+      }
+
+      if (data) {
+        return {
+          id: data.user_id,
+          email: data.email,
+          username: data.username,
+          age: data.age || 0,
+          profile: data.profile_type as UserProfile,
+          points: data.points,
+          rank: data.rank as "D" | "C" | "B" | "A" | "S",
+          lessonsCompleted: data.lessons_completed,
+          avatar: data.avatar_url || undefined,
+          fullName: data.full_name || undefined,
+          address: data.address || undefined,
+          hobbies: data.hobbies || undefined,
+          interests: data.interests || undefined,
+          createdAt: data.created_at,
+        };
+      }
+      return null;
+    } catch (err) {
+      console.error("Error in fetchProfile:", err);
+      return null;
     }
-    setIsLoading(false);
-  }, []);
-
-  const login = async (email: string, password: string): Promise<boolean> => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    const demoUser = DEMO_USERS[email];
-    if (demoUser && demoUser.password === password) {
-      setUser(demoUser.user);
-      localStorage.setItem("finance_user", JSON.stringify(demoUser.user));
-      return true;
-    }
-
-    // Check localStorage for registered users
-    const registeredUsers = JSON.parse(localStorage.getItem("finance_registered_users") || "{}");
-    const registeredUser = registeredUsers[email];
-    if (registeredUser && registeredUser.password === password) {
-      setUser(registeredUser.user);
-      localStorage.setItem("finance_user", JSON.stringify(registeredUser.user));
-      return true;
-    }
-
-    return false;
   };
 
-  const register = async (data: RegisterData): Promise<boolean> => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    const newUser: User = {
-      id: crypto.randomUUID(),
-      email: data.email,
-      username: data.username,
-      age: data.age,
-      profile: data.profile,
-      points: 0,
-      rank: "D",
-      lessonsCompleted: 0,
-      createdAt: new Date().toISOString(),
-    };
-
-    // Store in localStorage
-    const registeredUsers = JSON.parse(localStorage.getItem("finance_registered_users") || "{}");
-    registeredUsers[data.email] = { password: data.password, user: newUser };
-    localStorage.setItem("finance_registered_users", JSON.stringify(registeredUsers));
-
-    setUser(newUser);
-    localStorage.setItem("finance_user", JSON.stringify(newUser));
-    return true;
-  };
-
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("finance_user");
-  };
-
-  const updateUser = (data: Partial<User>) => {
-    if (user) {
-      const updatedUser = { ...user, ...data };
-      setUser(updatedUser);
-      localStorage.setItem("finance_user", JSON.stringify(updatedUser));
-
-      // Update in registered users
-      const registeredUsers = JSON.parse(localStorage.getItem("finance_registered_users") || "{}");
-      if (registeredUsers[user.email]) {
-        registeredUsers[user.email].user = updatedUser;
-        localStorage.setItem("finance_registered_users", JSON.stringify(registeredUsers));
+  const refreshProfile = async () => {
+    if (session?.user?.id) {
+      const profile = await fetchProfile(session.user.id);
+      if (profile) {
+        setUser(profile);
       }
     }
   };
 
-  const addPoints = (points: number) => {
+  useEffect(() => {
+    // Set up auth state listener BEFORE checking session
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, newSession) => {
+        console.log("Auth state changed:", event, newSession?.user?.id);
+        setSession(newSession);
+        
+        if (newSession?.user) {
+          // Use setTimeout to avoid blocking the auth state change
+          setTimeout(async () => {
+            const profile = await fetchProfile(newSession.user.id);
+            setUser(profile);
+            setIsLoading(false);
+          }, 0);
+        } else {
+          setUser(null);
+          setIsLoading(false);
+        }
+      }
+    );
+
+    // Check for existing session
+    supabase.auth.getSession().then(async ({ data: { session: existingSession } }) => {
+      setSession(existingSession);
+      if (existingSession?.user) {
+        const profile = await fetchProfile(existingSession.user.id);
+        setUser(profile);
+      }
+      setIsLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        console.error("Login error:", error);
+        return { success: false, error: error.message };
+      }
+
+      if (data.user) {
+        const profile = await fetchProfile(data.user.id);
+        if (profile) {
+          setUser(profile);
+        }
+        return { success: true };
+      }
+
+      return { success: false, error: "Não foi possível fazer login" };
+    } catch (err) {
+      console.error("Login exception:", err);
+      return { success: false, error: "Erro inesperado" };
+    }
+  };
+
+  const register = async (data: RegisterData): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const { data: authData, error } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          emailRedirectTo: window.location.origin,
+          data: {
+            username: data.username,
+            age: data.age,
+            profile_type: data.profile,
+          },
+        },
+      });
+
+      if (error) {
+        console.error("Register error:", error);
+        return { success: false, error: error.message };
+      }
+
+      if (authData.user) {
+        // Update the profile with additional data
+        const { error: profileError } = await supabase
+          .from("profiles")
+          .update({
+            username: data.username,
+            age: data.age,
+            profile_type: data.profile,
+          })
+          .eq("user_id", authData.user.id);
+
+        if (profileError) {
+          console.error("Profile update error:", profileError);
+        }
+
+        // Check if email confirmation is required
+        if (authData.session) {
+          const profile = await fetchProfile(authData.user.id);
+          if (profile) {
+            setUser(profile);
+          }
+          return { success: true };
+        } else {
+          // Email confirmation required
+          return { success: true, error: "Verifique o seu email para confirmar a conta" };
+        }
+      }
+
+      return { success: false, error: "Não foi possível criar a conta" };
+    } catch (err) {
+      console.error("Register exception:", err);
+      return { success: false, error: "Erro inesperado" };
+    }
+  };
+
+  const logout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setSession(null);
+  };
+
+  const updateUser = async (data: Partial<User>) => {
+    if (user) {
+      const updatedUser = { ...user, ...data };
+      setUser(updatedUser);
+
+      // Update in database
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          username: data.username,
+          age: data.age,
+          profile_type: data.profile,
+          avatar_url: data.avatar,
+          full_name: data.fullName,
+          address: data.address,
+          hobbies: data.hobbies,
+          interests: data.interests,
+        })
+        .eq("user_id", user.id);
+
+      if (error) {
+        console.error("Error updating profile:", error);
+      }
+    }
+  };
+
+  const addPoints = async (points: number) => {
     if (user) {
       const newPoints = user.points + points;
       let newRank = user.rank;
@@ -151,7 +255,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       else if (newPoints >= 2000) newRank = "B";
       else if (newPoints >= 500) newRank = "C";
 
-      updateUser({ points: newPoints, rank: newRank });
+      // Update locally first for immediate feedback
+      setUser({ ...user, points: newPoints, rank: newRank });
+
+      // Update in database
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          points: newPoints,
+          rank: newRank,
+        })
+        .eq("user_id", user.id);
+
+      if (error) {
+        console.error("Error updating points:", error);
+      }
     }
   };
 
@@ -166,6 +284,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         logout,
         updateUser,
         addPoints,
+        refreshProfile,
       }}
     >
       {children}
