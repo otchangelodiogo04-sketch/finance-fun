@@ -1,17 +1,16 @@
-import { motion } from "framer-motion";
-import { 
-  BookOpen, 
-  Trophy, 
-  Target, 
-  Zap, 
-  ChevronRight,
-  Star,
-  TrendingUp
-} from "lucide-react";
+ import { motion } from "framer-motion";
+ import { 
+   BookOpen, 
+   Target, 
+   Zap, 
+   ChevronRight,
+   TrendingUp
+ } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+ import RankProgress, { RANK_CONFIG, RankType } from "@/components/RankProgress";
 
 // Mock data for modules
 const MODULES = [
@@ -54,48 +53,43 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
-      {/* Welcome section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/20 via-card to-accent/10 border border-border p-6"
-      >
-        <div className="relative z-10">
-          <h1 className="text-2xl md:text-3xl font-display font-bold mb-2">
-            {getProfileWelcome()}
-          </h1>
-          <p className="text-muted-foreground mb-4">{getProfileTip()}</p>
-          
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-4">
-            <div className="bg-card/60 backdrop-blur rounded-xl p-4 text-center">
-              <div className={cn("inline-flex items-center justify-center w-10 h-10 rounded-lg mb-2", getRankColor(user?.rank || "D"))}>
-                <Trophy className="w-5 h-5" />
-              </div>
-              <p className="text-2xl font-bold">{user?.rank}</p>
-              <p className="text-xs text-muted-foreground">Rank</p>
-            </div>
-            <div className="bg-card/60 backdrop-blur rounded-xl p-4 text-center">
-              <div className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-primary/20 mb-2">
-                <Star className="w-5 h-5 text-primary" />
-              </div>
-              <p className="text-2xl font-bold">{user?.points}</p>
-              <p className="text-xs text-muted-foreground">Pontos</p>
-            </div>
-            <div className="bg-card/60 backdrop-blur rounded-xl p-4 text-center">
-              <div className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-accent/20 mb-2">
-                <BookOpen className="w-5 h-5 text-accent" />
-              </div>
-              <p className="text-2xl font-bold">{user?.lessonsCompleted}</p>
-              <p className="text-xs text-muted-foreground">Aulas</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-40 h-40 bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-accent/10 rounded-full blur-2xl" />
-      </motion.div>
+       {/* Welcome section */}
+       <motion.div
+         initial={{ opacity: 0, y: 20 }}
+         animate={{ opacity: 1, y: 0 }}
+         className="space-y-4"
+       >
+         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/20 via-card to-accent/10 border border-border p-6">
+           <div className="relative z-10">
+             <h1 className="text-2xl md:text-3xl font-display font-bold mb-2">
+               {getProfileWelcome()}
+             </h1>
+             <p className="text-muted-foreground mb-4">{getProfileTip()}</p>
+             
+             {/* Lessons completed stat */}
+             <div className="flex items-center gap-3 bg-card/60 backdrop-blur rounded-xl p-3 w-fit">
+               <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center">
+                 <BookOpen className="w-5 h-5 text-accent" />
+               </div>
+               <div>
+                 <p className="text-xl font-bold">{user?.lessonsCompleted}</p>
+                 <p className="text-xs text-muted-foreground">Aulas Concluídas</p>
+               </div>
+             </div>
+           </div>
+ 
+           {/* Decorative elements */}
+           <div className="absolute top-0 right-0 w-40 h-40 bg-primary/10 rounded-full blur-3xl" />
+           <div className="absolute bottom-0 left-0 w-32 h-32 bg-accent/10 rounded-full blur-2xl" />
+         </div>
+         
+         {/* Rank Progress Card */}
+         <RankProgress 
+           points={user?.points || 0} 
+           rank={(user?.rank || "D") as RankType}
+           variant="card"
+         />
+       </motion.div>
 
       {/* Continue learning */}
       <motion.section
@@ -215,17 +209,18 @@ const Dashboard = () => {
         transition={{ delay: 0.4 }}
         className="grid grid-cols-2 gap-3"
       >
-        <Button
-          variant="outline"
-          size="lg"
-          className="h-auto py-4 flex-col gap-2"
-          asChild
-        >
-          <Link to="/dashboard/ranking">
-            <Trophy className="w-6 h-6" />
-            <span>Ver Ranking</span>
-          </Link>
-        </Button>
+         <Link 
+           to="/dashboard/ranking"
+           className="bg-card border border-border rounded-xl p-4 hover:border-primary/50 transition-all duration-200 hover:shadow-glow-sm flex flex-col items-center gap-2"
+         >
+           <div className={cn(
+             "w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br",
+             RANK_CONFIG[(user?.rank || "D") as RankType].gradient
+           )}>
+             <span className="text-lg font-bold text-white">{user?.rank}</span>
+           </div>
+           <span className="text-sm font-medium">Ver Ranking</span>
+         </Link>
         <Button
           variant="gradient"
           size="lg"

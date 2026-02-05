@@ -4,9 +4,7 @@ import {
   User, 
   Camera, 
   Save, 
-  Trophy, 
   BookOpen, 
-  Star,
   MapPin,
   Heart,
   Sparkles,
@@ -17,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+ import RankProgress, { RANK_CONFIG, RankType } from "@/components/RankProgress";
 
 const Profile = () => {
   const { user, updateUser } = useAuth();
@@ -64,16 +63,6 @@ const Profile = () => {
     toast({ title: "Perfil atualizado!" });
   };
 
-  const getRankColor = (rank: string) => {
-    switch (rank) {
-      case "S": return "from-rank-s to-purple-400";
-      case "A": return "from-rank-a to-emerald-300";
-      case "B": return "from-rank-b to-yellow-300";
-      case "C": return "from-rank-c to-orange-300";
-      default: return "from-rank-d to-gray-400";
-    }
-  };
-
   const getProfileLabel = (profile: string) => {
     switch (profile) {
       case "crianca": return "👶 Criança";
@@ -102,10 +91,20 @@ const Profile = () => {
           {/* Avatar section */}
           <div className="flex flex-col sm:flex-row items-center gap-6">
             <div className="relative group">
-              <div className={cn(
-                "w-28 h-28 rounded-2xl bg-gradient-to-br p-1",
-                getRankColor(user?.rank || "D")
-              )}>
+               <motion.div 
+                 className={cn(
+                   "w-28 h-28 rounded-2xl bg-gradient-to-br p-1",
+                   RANK_CONFIG[(user?.rank || "D") as RankType].gradient
+                 )}
+                 animate={{ 
+                   boxShadow: [
+                     "0 0 20px rgba(16, 185, 129, 0.2)",
+                     "0 0 40px rgba(16, 185, 129, 0.4)",
+                     "0 0 20px rgba(16, 185, 129, 0.2)"
+                   ]
+                 }}
+                 transition={{ duration: 2, repeat: Infinity }}
+               >
                 <div className="w-full h-full rounded-xl bg-card flex items-center justify-center overflow-hidden">
                   {user?.avatar ? (
                     <img src={user.avatar} alt="" className="w-full h-full object-cover" />
@@ -113,7 +112,7 @@ const Profile = () => {
                     <User className="w-12 h-12 text-muted-foreground" />
                   )}
                 </div>
-              </div>
+               </motion.div>
               <label className="absolute inset-0 flex items-center justify-center bg-background/80 opacity-0 group-hover:opacity-100 rounded-2xl cursor-pointer transition-opacity">
                 <Camera className="w-8 h-8 text-primary" />
                 <input
@@ -139,27 +138,34 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 mt-6">
-            <div className="bg-card/60 backdrop-blur rounded-xl p-4 text-center">
-              <Trophy className="w-6 h-6 mx-auto mb-2 text-primary" />
-              <p className="text-xl font-bold">{user?.rank}</p>
-              <p className="text-xs text-muted-foreground">Rank</p>
-            </div>
-            <div className="bg-card/60 backdrop-blur rounded-xl p-4 text-center">
-              <Star className="w-6 h-6 mx-auto mb-2 text-primary" />
-              <p className="text-xl font-bold">{user?.points}</p>
-              <p className="text-xs text-muted-foreground">Pontos</p>
-            </div>
-            <div className="bg-card/60 backdrop-blur rounded-xl p-4 text-center">
-              <BookOpen className="w-6 h-6 mx-auto mb-2 text-primary" />
-              <p className="text-xl font-bold">{user?.lessonsCompleted}</p>
-              <p className="text-xs text-muted-foreground">Aulas</p>
-            </div>
+           {/* Lessons stat */}
+           <div className="mt-6 bg-card/60 backdrop-blur rounded-xl p-4 flex items-center gap-4">
+             <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center">
+               <BookOpen className="w-6 h-6 text-accent" />
+             </div>
+             <div>
+               <p className="text-2xl font-bold">{user?.lessonsCompleted}</p>
+               <p className="text-sm text-muted-foreground">Aulas Concluídas</p>
+             </div>
           </div>
         </div>
       </motion.div>
 
+       {/* Rank Progress */}
+       <motion.div
+         initial={{ opacity: 0, y: 20 }}
+         animate={{ opacity: 1, y: 0 }}
+         transition={{ delay: 0.05 }}
+         className="bg-card border border-border rounded-2xl p-6"
+       >
+         <h2 className="text-lg font-display font-semibold mb-4">Progressão de Rank</h2>
+         <RankProgress 
+           points={user?.points || 0} 
+           rank={(user?.rank || "D") as RankType}
+           variant="full"
+         />
+       </motion.div>
+ 
       {/* Edit profile form */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
