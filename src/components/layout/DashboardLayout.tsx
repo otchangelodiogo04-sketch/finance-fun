@@ -11,9 +11,11 @@ import {
   LogOut, 
   Wallet,
   Package,
+  Shield,
   ChevronRight
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { useAdminCheck } from "@/hooks/useAdminCheck";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
  import { RANK_CONFIG, RankType, getProgressToNextRank } from "@/components/RankProgress";
@@ -22,6 +24,7 @@ const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { isAdmin } = useAdminCheck();
 
   const handleLogout = () => {
     logout();
@@ -41,6 +44,9 @@ const DashboardLayout = () => {
   }
   if (user?.profile === "pais") {
     navItems.splice(4, 0, { to: "/dashboard/stock", icon: Package, label: "Stock" });
+  }
+  if (isAdmin) {
+    navItems.push({ to: "/dashboard/admin", icon: Shield, label: "Admin" });
   }
 
    const userRank = (user?.rank || "D") as RankType;

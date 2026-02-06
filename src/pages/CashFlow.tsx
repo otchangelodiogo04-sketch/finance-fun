@@ -29,12 +29,7 @@ const CATEGORIES = {
 };
 
 const CashFlow = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    { id: "1", type: "income", amount: 500, category: "Mesada", description: "Mesada de Janeiro", date: "2024-01-01" },
-    { id: "2", type: "expense", amount: 50, category: "Alimentação", description: "Lanche", date: "2024-01-02" },
-    { id: "3", type: "income", amount: 200, category: "Presente", description: "Aniversário", date: "2024-01-05" },
-    { id: "4", type: "expense", amount: 100, category: "Lazer", description: "Cinema", date: "2024-01-10" },
-  ]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   const [showForm, setShowForm] = useState(false);
   const [formType, setFormType] = useState<"income" | "expense">("income");
