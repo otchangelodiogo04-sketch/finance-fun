@@ -224,18 +224,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(updatedUser);
 
       // Update in database
+      const updatePayload: Record<string, unknown> = {};
+      if (data.username !== undefined) updatePayload.username = data.username;
+      if (data.age !== undefined) updatePayload.age = data.age;
+      if (data.profile !== undefined) updatePayload.profile_type = data.profile;
+      if (data.avatar !== undefined) updatePayload.avatar_url = data.avatar;
+      if (data.fullName !== undefined) updatePayload.full_name = data.fullName;
+      if (data.address !== undefined) updatePayload.address = data.address;
+      if (data.hobbies !== undefined) updatePayload.hobbies = data.hobbies;
+      if (data.interests !== undefined) updatePayload.interests = data.interests;
+      if (data.lessonsCompleted !== undefined) updatePayload.lessons_completed = data.lessonsCompleted;
+
+      if (Object.keys(updatePayload).length === 0) return;
+
       const { error } = await supabase
         .from("profiles")
-        .update({
-          username: data.username,
-          age: data.age,
-          profile_type: data.profile,
-          avatar_url: data.avatar,
-          full_name: data.fullName,
-          address: data.address,
-          hobbies: data.hobbies,
-          interests: data.interests,
-        })
+        .update(updatePayload)
         .eq("user_id", user.id);
 
       if (error) {
