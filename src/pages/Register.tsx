@@ -23,7 +23,13 @@ const passwordChecks = [
   { label: "Uma letra maiúscula", test: (p: string) => /[A-Z]/.test(p) },
   { label: "Uma letra minúscula", test: (p: string) => /[a-z]/.test(p) },
   { label: "Um número", test: (p: string) => /[0-9]/.test(p) },
+  { label: "Um carácter especial", test: (p: string) => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(p) },
 ];
+
+// Sanitize input to prevent XSS
+const sanitizeInput = (value: string): string => {
+  return value.replace(/[<>]/g, '').trim();
+};
 
 const Register = () => {
   const [step, setStep] = useState(1);
@@ -186,7 +192,7 @@ const Register = () => {
                     type="text"
                     placeholder="FinancePro"
                     value={username}
-                    onChange={(e) => { setUsername(e.target.value); setErrors((p) => ({ ...p, username: "" })); }}
+                    onChange={(e) => { setUsername(sanitizeInput(e.target.value)); setErrors((p) => ({ ...p, username: "" })); }}
                     className={cn("pl-10", errors.username && "border-destructive")}
                     required
                     maxLength={20}

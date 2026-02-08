@@ -54,10 +54,20 @@ const Profile = () => {
     reader.readAsDataURL(file);
   };
 
+  const sanitizeInput = (value: string): string => {
+    return value.replace(/[<>]/g, '').trim().slice(0, 200);
+  };
+
   const handleSave = async () => {
     setIsSaving(true);
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    updateUser(formData);
+    const sanitizedData = {
+      fullName: sanitizeInput(formData.fullName),
+      address: sanitizeInput(formData.address),
+      hobbies: sanitizeInput(formData.hobbies),
+      interests: sanitizeInput(formData.interests),
+    };
+    updateUser(sanitizedData);
+    setFormData(sanitizedData);
     setIsEditing(false);
     setIsSaving(false);
     toast({ title: "Perfil atualizado!" });

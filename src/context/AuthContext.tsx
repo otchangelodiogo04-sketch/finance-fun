@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         .single();
 
       if (error) {
-        console.error("Error fetching profile:", error);
+        console.error("Profile fetch failed");
         return null;
       }
 
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
       return null;
     } catch (err) {
-      console.error("Error in fetchProfile:", err);
+      console.error("Profile fetch failed");
       return null;
     }
   };
@@ -100,7 +100,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // Set up auth state listener BEFORE checking session
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, newSession) => {
-        console.log("Auth state changed:", event, newSession?.user?.id);
+        // Auth state changed - no sensitive data logged
         setSession(newSession);
         
         if (newSession?.user) {
@@ -138,7 +138,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
 
       if (error) {
-        console.error("Login error:", error);
+        console.error("Login failed");
         return { success: false, error: error.message };
       }
 
@@ -152,7 +152,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       return { success: false, error: "Não foi possível fazer login" };
     } catch (err) {
-      console.error("Login exception:", err);
+      console.error("Login failed unexpectedly");
       return { success: false, error: "Erro inesperado" };
     }
   };
@@ -173,7 +173,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
 
       if (error) {
-        console.error("Register error:", error);
+        console.error("Registration failed");
         return { success: false, error: error.message };
       }
 
@@ -189,7 +189,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           .eq("user_id", authData.user.id);
 
         if (profileError) {
-          console.error("Profile update error:", profileError);
+          console.error("Profile setup failed");
         }
 
         // Check if email confirmation is required
@@ -207,7 +207,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       return { success: false, error: "Não foi possível criar a conta" };
     } catch (err) {
-      console.error("Register exception:", err);
+      console.error("Registration failed unexpectedly");
       return { success: false, error: "Erro inesperado" };
     }
   };
@@ -243,7 +243,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         .eq("user_id", user.id);
 
       if (error) {
-        console.error("Error updating profile:", error);
+        console.error("Profile update failed");
       }
     }
   };
@@ -272,7 +272,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         .eq("user_id", user.id);
 
       if (error) {
-        console.error("Error updating points:", error);
+        console.error("Points update failed");
       }
     }
   };
