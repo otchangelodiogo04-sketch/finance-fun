@@ -94,7 +94,7 @@ const CashFlow = () => {
               </div>
               <span className="text-sm text-muted-foreground">Entradas</span>
             </div>
-            <p className="text-xl font-bold text-success">+{totalIncome.toFixed(2)}€</p>
+            <p className="text-xl font-bold text-success">+{totalIncome.toFixed(2)}AOA</p>
           </div>
           <div className="bg-card/60 backdrop-blur rounded-xl p-4">
             <div className="flex items-center gap-2 mb-2">
@@ -103,7 +103,7 @@ const CashFlow = () => {
               </div>
               <span className="text-sm text-muted-foreground">Saídas</span>
             </div>
-            <p className="text-xl font-bold text-destructive">-{totalExpense.toFixed(2)}€</p>
+            <p className="text-xl font-bold text-destructive">-{totalExpense.toFixed(2)}AOA</p>
           </div>
         </div>
       </motion.div>
