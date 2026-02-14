@@ -31,6 +31,18 @@ interface StockMovement {
 }
 
 const Stock = () => {
+  const [items, setItems] = useState<StockItem[]>([
+    { id: "1", name: "Arroz", quantity: 10, unit: "kg", lastUpdated: "2024-01-15" },
+    { id: "2", name: "Azeite", quantity: 5, unit: "L", lastUpdated: "2024-01-14" },
+    { id: "3", name: "Massa", quantity: 8, unit: "pacotes", lastUpdated: "2024-01-10" },
+    { id: "4", name: "Leite", quantity: 12, unit: "L", lastUpdated: "2024-01-16" },
+  ]);
+
+  const [movements, setMovements] = useState<StockMovement[]>([
+    { id: "1", productId: "1", productName: "Arroz", type: "in", quantity: 5, date: "2024-01-15" },
+    { id: "2", productId: "2", productName: "Azeite", type: "out", quantity: 2, date: "2024-01-14" },
+  ]);
+
   const [showForm, setShowForm] = useState(false);
   const [formType, setFormType] = useState<"add" | "in" | "out">("add");
   const [selectedProduct, setSelectedProduct] = useState("");
