@@ -83,7 +83,7 @@ const CashFlow = () => {
           "text-4xl font-display font-bold",
           balance >= 0 ? "text-success" : "text-destructive"
         )}>
-          {balance >= 0 ? "+" : ""}{balance.toFixed(2)}€
+          {balance >= 0 ? "+" : ""}{balance.toFixed(2)}AOA
         </p>
         
         <div className="grid grid-cols-2 gap-4 mt-6">
@@ -165,7 +165,7 @@ const CashFlow = () => {
           <div className="grid gap-3">
             <Input
               type="number"
-              placeholder="Valor (€)"
+              placeholder="Valor (AOA)"
               value={formData.amount}
               onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
             />
