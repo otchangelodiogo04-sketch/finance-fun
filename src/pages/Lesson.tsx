@@ -61,7 +61,7 @@ const LESSONS: Record<string, {
           "Ouro e prata",
           "Cheques em papel"
         ],
-        correctIndex: 2
+        correctIndex: 1
       }
     ]
   },
@@ -101,7 +101,7 @@ const LESSONS: Record<string, {
         "Para comprar só coisas caras",
         "Para trocar dinheiro com amigos"
       ],
-      "correctIndex": 2
+      "correctIndex": 1
     }
   ]
 },
