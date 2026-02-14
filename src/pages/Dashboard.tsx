@@ -232,10 +232,13 @@ const Dashboard = () => {
             <BookOpen className="w-6 h-6" />
             <span>Estudar</span>
           </Link>
-          <Link to="/dashboard/modulos">
-            <BookOpen className="w-6 h-6" />
-            <span>Estudar</span>
-          </Link>
+        </Button>
+        <Button
+          variant="gradient"
+          size="lg"
+          className="h-auto py-4 flex-col gap-2"
+          asChild
+        >
           <Link to="https://fun-ai-nine.vercel.app/">
             <BookOpen className="w-6 h-6" />
             <span>Agente IA</span>
