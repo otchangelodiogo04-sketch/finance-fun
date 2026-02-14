@@ -93,8 +93,6 @@ const AppContent = () => {
         <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
         <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
 
-        {/* Protected routes */}
-        <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
           <Route index element={<Dashboard />} />
           <Route path="modulos" element={<Modules />} />
           <Route path="modulos/:moduleId" element={<Modules />} />
@@ -104,10 +102,7 @@ const AppContent = () => {
           <Route path="fluxo-caixa" element={<CashFlow />} />
           <Route path="stock" element={<Stock />} />
           <Route path="admin" element={<AdminDashboard />} />
-        </Route>
 
-        {/* Catch all */}
-        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
