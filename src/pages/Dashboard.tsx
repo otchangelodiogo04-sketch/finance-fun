@@ -53,24 +53,7 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
-      import { Sparkles } from "lucide-react";
-
-const SidebarAgentLink = () => {
-  return (
-    <a
-      href="https://fun-ai-nine.vercel.app/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-muted transition"
-    >
-      <Sparkles size={18} />
-      <span>Agente AI</span>
-    </a>
-  );
-};
-
-export default SidebarAgentLink;
-
+      
        {/* Welcome section */}
        <motion.div
          initial={{ opacity: 0, y: 20 }}
@@ -245,7 +228,7 @@ export default SidebarAgentLink;
           className="h-auto py-4 flex-col gap-2"
           asChild
         >
-          <Link to="/dashboard/modulos">
+          <Link to="https://fun-ai-nine.vercel.app/">
             <BookOpen className="w-6 h-6" />
             <span>Estudar</span>
           </Link>
@@ -254,5 +237,4 @@ export default SidebarAgentLink;
     </div>
   );
 };
-
 export default Dashboard;
