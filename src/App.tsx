@@ -22,7 +22,6 @@ import Profile from "./pages/Profile";
 import CashFlow from "./pages/CashFlow";
 import Stock from "./pages/Stock";
 import AdminDashboard from "./pages/AdminDashboard";
-import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -87,14 +86,13 @@ const AppContent = () => {
 
   return (
     <BrowserRouter>
-      <Routes>
         {/* Public routes */}
         <Route path="/" element={<Index />} />
-        <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-        <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         {/* Protected routes */}
-        <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
+        <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="modulos" element={<Modules />} />
           <Route path="modulos/:moduleId" element={<Modules />} />
@@ -105,10 +103,6 @@ const AppContent = () => {
           <Route path="stock" element={<Stock />} />
           <Route path="admin" element={<AdminDashboard />} />
         </Route>
-
-        {/* Catch all */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
     </BrowserRouter>
   );
 };
