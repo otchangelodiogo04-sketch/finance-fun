@@ -22,7 +22,6 @@ import Profile from "./pages/Profile";
 import CashFlow from "./pages/CashFlow";
 import Stock from "./pages/Stock";
 import AdminDashboard from "./pages/AdminDashboard";
-
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

@@ -53,7 +53,6 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
-      
        {/* Welcome section */}
        <motion.div
          initial={{ opacity: 0, y: 20 }}
@@ -233,19 +232,9 @@ const Dashboard = () => {
             <span>Estudar</span>
           </Link>
         </Button>
-        <Button
-          variant="gradient"
-          size="lg"
-          className="h-auto py-4 flex-col gap-2"
-          asChild
-        >
-          <Link to="https://fun-ai-nine.vercel.app/">
-            <BookOpen className="w-6 h-6" />
-            <span>Agente IA</span>
-          </Link>
-        </Button>
       </motion.section>
     </div>
   );
 };
+
 export default Dashboard;
