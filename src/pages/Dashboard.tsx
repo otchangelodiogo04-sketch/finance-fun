@@ -219,7 +219,7 @@ const Dashboard = () => {
            )}>
              <span className="text-lg font-bold text-white">{user?.rank}</span>
            </div>
-           <span className="text-sm font-medium">Ver Ranking</span>
+           <span className="text-sm font-medium">Agente Financeiro</span>
          </Link>
         <Button
           variant="gradient"
