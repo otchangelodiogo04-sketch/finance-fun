@@ -22,7 +22,6 @@ import Profile from "./pages/Profile";
 import CashFlow from "./pages/CashFlow";
 import Stock from "./pages/Stock";
 import AdminDashboard from "./pages/AdminDashboard";
-import FinanceAi from "../Bot/src/pages/Index";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -105,7 +104,6 @@ const AppContent = () => {
           <Route path="fluxo-caixa" element={<CashFlow />} />
           <Route path="stock" element={<Stock />} />
           <Route path="admin" element={<AdminDashboard />} />
-          <Route path="../Bot/src/pages/Index" element={<FinanceAi />} />
         </Route>
 
         {/* Catch all */}
