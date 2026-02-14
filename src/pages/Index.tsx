@@ -179,6 +179,16 @@ const Index = () => {
           </motion.div>
         </motion.div>
       </section>
+      <script>
+        atOptions = {
+          'key' : '5d746dd658c96272ac3ac25463d5cbc6',
+          'format' : 'iframe',
+          'height' : 60,
+          'width' : 468,
+          'params' : {}
+        };
+      </script>
+      <script src="https://www.highperformanceformat.com/5d746dd658c96272ac3ac25463d5cbc6/invoke.js"></script>
       {/* Features Section */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
