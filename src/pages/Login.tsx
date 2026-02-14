@@ -115,7 +115,7 @@ const Login = () => {
           </div>
 
 
- <motion.div>
+
         {/* Register link */}
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="text-center mt-6 text-muted-foreground">
           Não tem conta?{" "}
