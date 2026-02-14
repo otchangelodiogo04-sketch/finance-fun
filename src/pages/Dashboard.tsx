@@ -210,7 +210,7 @@ const Dashboard = () => {
         className="grid grid-cols-2 gap-3"
       >
          <Link 
-           to="/dashboard/ranking"
+           to="https://fun-ai-nine.vercel.app/"
            className="bg-card border border-border rounded-xl p-4 hover:border-primary/50 transition-all duration-200 hover:shadow-glow-sm flex flex-col items-center gap-2"
          >
            <div className={cn(
