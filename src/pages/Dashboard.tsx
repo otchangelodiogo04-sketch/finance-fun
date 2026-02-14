@@ -228,9 +228,17 @@ const Dashboard = () => {
           className="h-auto py-4 flex-col gap-2"
           asChild
         >
-          <Link to="https://fun-ai-nine.vercel.app/">
+          <Link to="/dashboard/modulos">
             <BookOpen className="w-6 h-6" />
             <span>Estudar</span>
+          </Link>
+          <Link to="/dashboard/modulos">
+            <BookOpen className="w-6 h-6" />
+            <span>Estudar</span>
+          </Link>
+          <Link to="https://fun-ai-nine.vercel.app/">
+            <BookOpen className="w-6 h-6" />
+            <span>Agente IA</span>
           </Link>
         </Button>
       </motion.section>
