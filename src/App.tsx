@@ -86,6 +86,7 @@ const AppContent = () => {
 
   return (
     <BrowserRouter>
+      <Routes>
         {/* Public routes */}
         <Route path="/" element={<Index />} />
         <Route path="/login" element={<Login />} />
@@ -103,6 +104,7 @@ const AppContent = () => {
           <Route path="stock" element={<Stock />} />
           <Route path="admin" element={<AdminDashboard />} />
         </Route>
+      </Routes>
     </BrowserRouter>
   );
 };
