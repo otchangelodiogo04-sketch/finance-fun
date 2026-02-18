@@ -253,6 +253,81 @@ const Index = () => {
           </div>
         </div>
       </section>
+{/* Financial AI Agent Section */}
+<section className="py-20 px-4 bg-background/50">
+  <div className="max-w-6xl mx-auto text-center">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="mb-16"
+    >
+      <Sparkles className="w-16 h-16 text-primary mx-auto mb-4" />
+      <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+        Conheça o <span className="text-gradient">Agente Financeiro AI</span>
+      </h2>
+      <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
+        O nosso agente inteligente ajuda você a gerir gastos, controlar orçamentos e tomar decisões financeiras de forma personalizada e automatizada. É como ter um consultor financeiro disponível 24/7!
+      </p>
+      <Button variant="gradient" size="lg" asChild>
+        <Link to="/ai-agent">
+          Experimente o Agente AI
+          <ChevronRight className="w-5 h-5 ml-2" />
+        </Link>
+      </Button>
+    </motion.div>
+
+    <div className="grid md:grid-cols-3 gap-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.1 }}
+        className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 hover:shadow-glow-sm transition-all duration-300"
+      >
+        <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center mb-4">
+          <Target className="w-6 h-6 text-primary" />
+        </div>
+        <h3 className="font-semibold text-lg mb-2">Gestão Inteligente de Gastos</h3>
+        <p className="text-muted-foreground text-sm">
+          Analise despesas automaticamente e receba recomendações personalizadas para poupar mais.
+        </p>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.2 }}
+        className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 hover:shadow-glow-sm transition-all duration-300"
+      >
+        <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center mb-4">
+          <TrendingUp className="w-6 h-6 text-primary" />
+        </div>
+        <h3 className="font-semibold text-lg mb-2">Investimentos Simplificados</h3>
+        <p className="text-muted-foreground text-sm">
+          Receba sugestões de investimento adaptadas ao seu perfil financeiro, de forma simples e segura.
+        </p>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.3 }}
+        className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 hover:shadow-glow-sm transition-all duration-300"
+      >
+        <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center mb-4">
+          <Shield className="w-6 h-6 text-primary" />
+        </div>
+        <h3 className="font-semibold text-lg mb-2">Segurança e Privacidade</h3>
+        <p className="text-muted-foreground text-sm">
+          Todas as suas informações financeiras são protegidas com criptografia e não são compartilhadas.
+        </p>
+      </motion.div>
+    </div>
+  </div>
+</section>
 
       {/* CTA Section */}
       <section className="py-20 px-4">
