@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { 
-  BookOpen, Trophy, Target, Users, ChevronRight, Sparkles, TrendingUp, Shield, Star, HelpCircle 
+  BookOpen, Trophy, Target, Users, ChevronRight, Sparkles, TrendingUp, Shield, BarChart, Star, UserCheck, HelpCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.png";
 
-// Screenshots
+// Imagens de exemplo
 import dashboardImg from "@/assets/screens/dashboard.png";
 import rankingImg from "@/assets/screens/ranking.png";
 import agentImg from "@/assets/screens/agent.png";
@@ -44,63 +44,56 @@ const FAQS = [
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
+    <div className="min-h-screen bg-background overflow-hidden">
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 py-24 overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[700px] bg-primary/10 rounded-full blur-[180px]" />
-          <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[140px]" />
-          <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px]" />
+      <section className="relative min-h-screen flex items-center justify-center px-4 py-20">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-primary/10 rounded-full blur-[150px]" />
+          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[120px]" />
+          <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[80px]" />
         </div>
 
-        <div className="relative z-10 max-w-6xl mx-auto text-center space-y-8">
-          <motion.img src={logo} alt="Fivora AI" className="w-28 h-28 md:w-36 md:h-36 mx-auto" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.1 }} />
-          
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mx-auto">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm text-primary font-medium">Educação Financeira Gamificada</span>
+        <div className="relative z-10 max-w-4xl mx-auto text-center">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <motion.img src={logo} alt="Fivora AI" className="w-24 h-24 md:w-32 md:h-32 mx-auto mb-6" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.1, duration: 0.5 }} />
+
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-6">
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span className="text-sm text-primary font-medium">Educação Financeira Gamificada</span>
+            </motion.div>
+
+            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-6">
+              Aprenda <span className="text-gradient">Finanças</span> de forma divertida
+            </motion.h1>
+
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+              Aulas interativas, quizzes desafiantes e gamificação para transformar a forma como gere o seu dinheiro
+            </motion.p>
+
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button variant="gradient" size="xl" asChild>
+                <Link to="/register">Começar Grátis <ChevronRight className="w-5 h-5 ml-2" /></Link>
+              </Button>
+              <Button variant="outline" size="xl" asChild>
+                <Link to="/login">Já tenho conta</Link>
+              </Button>
+            </motion.div>
           </motion.div>
-
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-4xl md:text-6xl lg:text-7xl font-bold font-display">
-            Aprenda <span className="text-gradient">Finanças</span> de forma divertida
-          </motion.h1>
-
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Aulas interativas, quizzes desafiantes e gamificação para transformar a forma como gere o seu dinheiro.
-          </motion.p>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="gradient" size="xl" asChild>
-              <Link to="/register">Começar Grátis <ChevronRight className="w-5 h-5 ml-2" /></Link>
-            </Button>
-            <Button variant="outline" size="xl" asChild>
-              <Link to="/login">Já tenho conta</Link>
-            </Button>
-          </motion.div>
-
-          {/* Hero Screenshots com sobreposição */}
-          <div className="relative mt-16 flex justify-center items-center gap-6">
-            <motion.img src={dashboardImg} alt="Dashboard" className="rounded-3xl shadow-xl w-80 md:w-96 z-20" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} />
-            <motion.img src={rankingImg} alt="Ranking" className="rounded-3xl shadow-xl w-72 md:w-80 absolute -right-12 top-12 z-10" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} />
-            <motion.img src={quizImg} alt="Quiz" className="rounded-3xl shadow-xl w-64 md:w-72 absolute -left-12 bottom-0 z-0" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} />
-          </div>
         </div>
       </section>
 
       {/* Features Section */}
       <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto text-center space-y-8">
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-bold font-display">
-            Porque escolher a <span className="text-gradient">Fivora AI</span>?
-          </motion.h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Uma plataforma completa para aprender a gerir dinheiro de forma inteligente.
-          </p>
+        <div className="max-w-6xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Porque escolher a <span className="text-gradient">Fivora AI</span>?</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">Uma plataforma completa para aprender a gerir dinheiro de forma inteligente</p>
+          </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-            {FEATURES.map((feature, i) => (
-              <motion.div key={feature.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i*0.1 }} className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 hover:shadow-glow transition-all duration-300">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {FEATURES.map((feature, index) => (
+              <motion.div key={feature.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 hover:shadow-glow-sm transition-all duration-300">
                 <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center mb-4">
                   <feature.icon className="w-6 h-6 text-primary" />
                 </div>
@@ -112,28 +105,56 @@ const Index = () => {
         </div>
       </section>
 
-      {/* AI Agent Section */}
-      <section className="py-24 px-4 bg-card/50">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6">
-            <Star className="w-16 h-16 text-primary" />
-            <h2 className="text-3xl md:text-4xl font-bold font-display">Agente Financeiro <span className="text-gradient">AI</span></h2>
-            <p className="text-muted-foreground">Seu consultor digital 24/7. Analisa gastos, sugere investimentos e ajuda a controlar orçamento de forma inteligente.</p>
-            <Button variant="gradient" size="lg" asChild>
-              <Link to="/ai-agent">Experimente o Agente AI <ChevronRight className="w-5 h-5 ml-2" /></Link>
-            </Button>
-          </motion.div>
-          <motion.img src={agentImg} alt="Agente Financeiro AI" className="rounded-3xl shadow-xl w-full" initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} />
+      {/* Dashboard Section */}
+      <section className="py-20 px-4 bg-background/50">
+        <div className="max-w-6xl mx-auto text-center">
+          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-display font-bold mb-12">Veja o seu progresso no Dashboard</motion.h2>
+          <motion.img src={dashboardImg} alt="Dashboard Fivora AI" className="rounded-xl shadow-lg mx-auto max-w-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} />
         </div>
       </section>
 
-      {/* FAQs */}
+      {/* Ranking Section */}
+      <section className="py-20 px-4">
+        <div className="max-w-6xl mx-auto text-center">
+          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-display font-bold mb-12">Competição e Ranking</motion.h2>
+          <motion.img src={rankingImg} alt="Ranking Fivora AI" className="rounded-xl shadow-lg mx-auto max-w-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} />
+        </div>
+      </section>
+
+      {/* AI Agent Section */}
+      <section className="py-20 px-4 bg-card/50">
+        <div className="max-w-6xl mx-auto text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
+            <Star className="w-16 h-16 text-primary mx-auto mb-4" />
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Agente Financeiro <span className="text-gradient">AI</span></h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
+              Seu consultor digital, 24/7. Analisa gastos, sugere investimentos, e ajuda a controlar orçamento de forma inteligente.
+            </p>
+            <Button variant="gradient" size="lg" asChild>
+              <Link to="https://fun-ai-nine.vercel.app/">Experimente o Agente AI <ChevronRight className="w-5 h-5 ml-2" /></Link>
+            </Button>
+          </motion.div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {AI_BENEFITS.map((benefit, index) => (
+              <motion.div key={benefit.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 hover:shadow-glow-sm transition-all duration-300">
+                <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center mb-4">
+                  <benefit.icon className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="font-semibold text-lg mb-2">{benefit.title}</h3>
+                <p className="text-muted-foreground text-sm">{benefit.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQs Section */}
       <section className="py-20 px-4 bg-background/30">
-        <div className="max-w-4xl mx-auto text-center space-y-12">
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-bold font-display">Perguntas Frequentes</motion.h2>
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-display font-bold mb-12">Perguntas Frequentes</motion.h2>
           <div className="space-y-6 text-left">
-            {FAQS.map((faq, i) => (
-              <motion.div key={faq.question} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i*0.1 }} className="bg-card border border-border rounded-xl p-6">
+            {FAQS.map((faq, index) => (
+              <motion.div key={faq.question} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="bg-card border border-border rounded-xl p-6">
                 <div className="flex items-center gap-2 mb-2">
                   <HelpCircle className="w-5 h-5 text-primary" />
                   <h3 className="font-semibold">{faq.question}</h3>
@@ -145,18 +166,18 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Final CTA */}
+      {/* CTA Section */}
       <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto text-center">
           <div className="bg-gradient-to-br from-primary/20 via-card to-accent/10 border border-border rounded-3xl p-8 md:p-12">
             <TrendingUp className="w-16 h-16 text-primary mx-auto mb-6" />
-            <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">Pronto para transformar suas finanças?</h2>
-            <p className="text-muted-foreground mb-8">Junte-se a milhares de pessoas que já estão a aprender a gerir dinheiro de forma inteligente.</p>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Pronto para transformar suas finanças?</h2>
+            <p className="text-muted-foreground mb-8 max-w-xl mx-auto">Junte-se a milhares de pessoas que já estão a aprender a gerir dinheiro de forma inteligente.</p>
             <Button variant="gradient" size="xl" asChild>
               <Link to="/register">Criar Conta Grátis <ChevronRight className="w-5 h-5 ml-2" /></Link>
             </Button>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Footer */}
