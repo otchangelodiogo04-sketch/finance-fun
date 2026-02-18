@@ -1,67 +1,97 @@
 <!doctype html>
 <html lang="pt">
   <head>
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="google-site-verification" content="2jweMySA15XXsz17R15hkgkD0cQJ9abbIzxdxH27p3g" />
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="8a0939e8-8d83-4549-99bb-09f2729fc5e0"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
-    <title>Finance</title>
-    <meta name="description" content="Educação Financeira para crianças, jovens e pais" />
+
+    <!-- SEO Básico -->
+    <title>Fivora AI — Educação Financeira Inteligente para Crianças, Jovens e Pais</title>
+    <meta name="description" content="Fivora AI é uma plataforma de educação financeira gamificada, ajudando crianças, jovens e famílias a poupar, investir e gerir dinheiro de forma simples, prática e inteligente." />
+    <meta name="keywords" content="educação financeira, finanças pessoais, poupança, investimento, literacia financeira, AI, startup, Angola, África, app financeira, gestão de despesas" />
     <meta name="author" content="Otchângelo Diogo" />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
 
-    <!-- TODO: Update og:title to match your application name -->
-    <meta property="og:title" content="Finance app" />
-    <meta property="og:description" content="Educação financeira" />
+    <!-- Canonical e Hreflang -->
+    <link rel="canonical" href="https://finance-fun-pi.vercel.app/" />
+    <link rel="alternate" hreflang="pt" href="https://finance-fun-pi.vercel.app/" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Fivora AI — Educação Financeira Inteligente" />
+    <meta property="og:description" content="Controle gastos, poupe e invista com Fivora AI. Educação financeira gamificada e prática para crianças, jovens e famílias." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://finance-fun-pi.vercel.app/src/assets/logo.png" />
-     <!-- SEO Core -->
-  <meta name="description"
-        content="Finance é uma plataforma moderna de educação financeira para crianças, jovens e pais. Aprenda a poupar, investir e gerir dinheiro de forma simples, prática e gamificada." />
+    <meta property="og:url" content="https://finance-fun-pi.vercel.app/" />
+    <meta property="og:image" content="https://finance-fun-pi.vercel.app/public/logo.png" />
+    <meta property="og:locale" content="pt_PT" />
 
-  <meta name="keywords"
-        content="educação financeira, finanças pessoais, finanças para crianças, poupança, investimento, dinheiro, app financeira, literacia financeira, educação financeira Angola, educação financeira Portugal" />
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Fivora AI — Educação Financeira Inteligente" />
+    <meta name="twitter:description" content="Controle gastos, poupe e invista com Fivora AI. Educação financeira gamificada para crianças, jovens e famílias." />
+    <meta name="twitter:image" content="https://finance-fun-pi.vercel.app/public/logo.png" />
 
-  <meta name="author" content="Otchângelo Diogo" />
-  <meta name="robots" content="index, follow" />
-  <meta name="googlebot" content="index, follow" />
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0f3d2e" />
+    <link rel="icon" href="/logo.png" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Fivora AI" />
 
-  <!-- Canonical -->
-  <link rel="canonical" href="https://finance-fun-pi.vercel.app/" />
+    <!-- Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- PWA -->
-  <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#0f3d2e" />
-  <link rel="icon" href="/logo.png" />
+    <!-- Analytics -->
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="8a0939e8-8d83-4549-99bb-09f2729fc5e0"></script>
 
-  <!-- Open Graph (Facebook, WhatsApp, LinkedIn) -->
-  <meta property="og:title"
-        content="Finance — Educação Financeira para Todos" />
-  <meta property="og:description"
-        content="Aprenda educação financeira de forma simples, moderna e acessível. Ideal para crianças, jovens e famílias." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://finance-fun-pi.vercel.app/" />
-  <meta property="og:image" content="/logo.png" />
-  <meta property="og:locale" content="pt_PT" />
+    <!-- JSON-LD Structured Data (Schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Fivora AI",
+      "url": "https://fivora.ai/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://fivora.ai/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title"
-        content="Finance — Educação Financeira Inteligente" />
-  <meta name="twitter:description"
-        content="Educação financeira simples, moderna e gamificada para crianças, jovens e pais." />
-  <meta name="twitter:image" content="/logo.png" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Fivora AI",
+      "url": "https://fivora.ai/",
+      "logo": "https://fivora.ai/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/FivoraAI",
+        "https://www.instagram.com/FivoraAI",
+        "https://www.linkedin.com/company/FivoraAI"
+      ]
+    }
+    </script>
 
-  <!-- Mobile -->
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Finance" />
+    <!-- Optional: Breadcrumb Schema (bom para posts de blog) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://fivora.ai/"
+        }
+      ]
+    }
+    </script>
 
-  <!-- Performance -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   </head>
 
   <body>

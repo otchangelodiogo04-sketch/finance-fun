@@ -1,4 +1,21 @@
+# robots.txt para Fivora AI
+# Bloqueia páginas irrelevantes e permite indexação das principais
+
 User-agent: *
+# Bloquear pastas privadas ou sensíveis
+Disallow: /src/
+Disallow: /public/
+Disallow: /supabase/
+
+
+# Bloquear parâmetros de URL que podem gerar conteúdo duplicado
+Disallow: /*?sessionid=
+Disallow: /*?utm_source=
+Disallow: /*?utm_medium=
+Disallow: /*?utm_campaign=
+
+# Permitir indexação de tudo o mais
 Allow: /
 
-Sitemap: https://finance-fun-pi.vercel.app/public/sitemap.xml
+# Sitemap do site (ajuda Google a indexar todas as páginas)
+Sitemap: https://finance-fun-pi.vercel.app/sitemap.xml
