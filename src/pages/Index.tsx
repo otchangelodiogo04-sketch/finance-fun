@@ -1,10 +1,16 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { 
-  BookOpen, Trophy, Target, Users, ChevronRight, Sparkles, TrendingUp, Shield 
+  BookOpen, Trophy, Target, Users, ChevronRight, Sparkles, TrendingUp, Shield, BarChart, Star, UserCheck, HelpCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.png";
+
+// Imagens de exemplo
+import dashboardImg from "@/assets/screens/dashboard.png";
+import rankingImg from "@/assets/screens/ranking.png";
+import agentImg from "@/assets/screens/agent.png";
+import quizImg from "@/assets/screens/quiz.png";
 
 const FEATURES = [
   { icon: BookOpen, title: "Aulas Interativas", description: "Aprenda finanças com conteúdo prático e exemplos do dia-a-dia" },
@@ -28,6 +34,12 @@ const AI_BENEFITS = [
 const TESTIMONIALS = [
   { name: "Ana Silva", role: "Mãe e Empreendedora", feedback: "Com a Fivora AI, consegui ensinar meus filhos a poupar e ainda gerenciar meu próprio orçamento de forma prática." },
   { name: "Miguel Santos", role: "Estudante Universitário", feedback: "O Agente Financeiro AI me ajudou a controlar meus gastos e iniciar investimentos com confiança." },
+];
+
+const FAQS = [
+  { question: "Como funciona o Agente Financeiro AI?", answer: "Ele analisa automaticamente suas transações, sugere investimentos e ajuda a manter o orçamento equilibrado." },
+  { question: "A Fivora AI é segura?", answer: "Sim! Todos os dados são criptografados e nunca compartilhados sem autorização." },
+  { question: "Posso usar no celular?", answer: "Sim, a plataforma é totalmente responsiva e pode ser acessada de qualquer dispositivo." },
 ];
 
 const Index = () => {
@@ -93,20 +105,35 @@ const Index = () => {
         </div>
       </section>
 
-      {/* AI Financial Agent Section */}
+      {/* Dashboard Section */}
       <section className="py-20 px-4 bg-background/50">
         <div className="max-w-6xl mx-auto text-center">
+          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-display font-bold mb-12">Veja o seu progresso no Dashboard</motion.h2>
+          <motion.img src={dashboardImg} alt="Dashboard Fivora AI" className="rounded-xl shadow-lg mx-auto max-w-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} />
+        </div>
+      </section>
+
+      {/* Ranking Section */}
+      <section className="py-20 px-4">
+        <div className="max-w-6xl mx-auto text-center">
+          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-display font-bold mb-12">Competição e Ranking</motion.h2>
+          <motion.img src={rankingImg} alt="Ranking Fivora AI" className="rounded-xl shadow-lg mx-auto max-w-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} />
+        </div>
+      </section>
+
+      {/* AI Agent Section */}
+      <section className="py-20 px-4 bg-card/50">
+        <div className="max-w-6xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
-            <Sparkles className="w-16 h-16 text-primary mx-auto mb-4" />
+            <Star className="w-16 h-16 text-primary mx-auto mb-4" />
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Agente Financeiro <span className="text-gradient">AI</span></h2>
             <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
-              Seu consultor financeiro digital, disponível 24/7, que analisa seus gastos, sugere investimentos e ajuda a controlar seu orçamento de forma inteligente.
+              Seu consultor digital, 24/7. Analisa gastos, sugere investimentos, e ajuda a controlar orçamento de forma inteligente.
             </p>
             <Button variant="gradient" size="lg" asChild>
               <Link to="/ai-agent">Experimente o Agente AI <ChevronRight className="w-5 h-5 ml-2" /></Link>
             </Button>
           </motion.div>
-
           <div className="grid md:grid-cols-3 gap-6">
             {AI_BENEFITS.map((benefit, index) => (
               <motion.div key={benefit.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 hover:shadow-glow-sm transition-all duration-300">
@@ -121,37 +148,18 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Profiles Section */}
-      <section className="py-20 px-4 bg-card/50">
-        <div className="max-w-6xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Conteúdo para <span className="text-gradient">cada perfil</span></h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">Escolha o seu perfil e aprenda com conteúdo adaptado às suas necessidades</p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {PROFILES.map((profile, index) => (
-              <motion.div key={profile.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className={`relative overflow-hidden bg-gradient-to-br ${profile.color} border border-border rounded-2xl p-8 text-center`}>
-                <div className="text-5xl mb-4">{profile.emoji}</div>
-                <h3 className="font-display font-bold text-xl mb-2">{profile.title}</h3>
-                <p className="text-muted-foreground text-sm">{profile.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-display font-bold mb-12">O que dizem sobre a Fivora AI</motion.h2>
-          
-          <div className="grid md:grid-cols-2 gap-6">
-            {TESTIMONIALS.map((t, index) => (
-              <motion.div key={t.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="bg-card border border-border rounded-2xl p-8">
-                <p className="text-muted-foreground mb-4">"{t.feedback}"</p>
-                <p className="font-bold">{t.name}</p>
-                <p className="text-sm text-muted-foreground">{t.role}</p>
+      {/* FAQs Section */}
+      <section className="py-20 px-4 bg-background/30">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl md:text-4xl font-display font-bold mb-12">Perguntas Frequentes</motion.h2>
+          <div className="space-y-6 text-left">
+            {FAQS.map((faq, index) => (
+              <motion.div key={faq.question} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1 }} className="bg-card border border-border rounded-xl p-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <HelpCircle className="w-5 h-5 text-primary" />
+                  <h3 className="font-semibold">{faq.question}</h3>
+                </div>
+                <p className="text-muted-foreground">{faq.answer}</p>
               </motion.div>
             ))}
           </div>
@@ -189,7 +197,6 @@ const Index = () => {
           </div>
         </div>
       </footer>
-
     </div>
   );
 };
