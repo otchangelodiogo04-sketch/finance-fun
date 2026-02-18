@@ -190,7 +190,7 @@ const Index = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Porque escolher o <span className="text-gradient">Finance</span>?
+              Porque escolher a <span className="text-gradient">Fivora AI</span>?
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Uma plataforma completa para aprender a gerir dinheiro de forma inteligente
@@ -285,7 +285,7 @@ const Index = () => {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <img src={logo} alt="Finance" className="w-8 h-8" />
-            <span className="font-display font-bold text-gradient">Finance</span>
+            <span className="font-display font-bold text-gradient">Fivora AI</span>
           </div>
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <Link to="/login" className="hover:text-primary transition-colors">Login</Link>
