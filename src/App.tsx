@@ -11,7 +11,7 @@ import SplashScreen from "@/components/SplashScreen";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 
 // Pages
-import Index from "./pages/Index";
+import Index from "./pages/Index.html";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
