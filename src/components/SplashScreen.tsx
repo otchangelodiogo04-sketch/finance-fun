@@ -66,7 +66,7 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
           transition={{ delay: 0.2, duration: 0.5 }}
           className="text-4xl md:text-5xl font-display font-bold text-gradient mb-2"
         >
-          Fivora AI
+          Finance
         </motion.h1>
 
         <motion.p
