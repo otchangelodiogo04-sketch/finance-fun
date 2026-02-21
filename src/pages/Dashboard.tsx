@@ -1,18 +1,18 @@
- import { motion } from "framer-motion";
- import { 
-   BookOpen, 
-   Target, 
-   Zap, 
-   ChevronRight,
-   TrendingUp
- } from "lucide-react";
+import { motion } from "framer-motion";
+import { 
+  BookOpen, 
+  Target, 
+  Zap, 
+  ChevronRight,
+  TrendingUp,
+  Loader2
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
- import RankProgress, { RANK_CONFIG, RankType } from "@/components/RankProgress";
+import RankProgress, { RANK_CONFIG, RankType } from "@/components/RankProgress";
 
-// Mock data for modules
 const MODULES = [
   { id: 1, title: "Fundamentos", progress: 75, lessons: 6, completed: 4 },
   { id: 2, title: "Orçamento", progress: 30, lessons: 6, completed: 2 },
@@ -21,7 +21,18 @@ const MODULES = [
 ];
 
 const Dashboard = () => {
+  // Adicionei 'isLoading' (verifique se seu AuthContext exporta isso)
   const { user } = useAuth();
+
+  // --- TRAVA DE SEGURANÇA ---
+  // Se o usuário ainda não carregou, mostra um spinner em vez de uma tela preta
+  if (!user) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   const getProfileWelcome = () => {
     switch (user?.profile) {
@@ -41,49 +52,37 @@ const Dashboard = () => {
     }
   };
 
-  const getRankColor = (rank: string) => {
-    switch (rank) {
-      case "S": return "bg-rank-s text-white";
-      case "A": return "bg-rank-a text-primary-foreground";
-      case "B": return "bg-rank-b text-primary-foreground";
-      case "C": return "bg-rank-c text-primary-foreground";
-      default: return "bg-rank-d text-white";
-    }
-  };
-
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
+    <div className="space-y-6 max-w-4xl mx-auto p-4">
        {/* Welcome section */}
        <motion.div
          initial={{ opacity: 0, y: 20 }}
          animate={{ opacity: 1, y: 0 }}
          className="space-y-4"
        >
-         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/20 via-card to-accent/10 border border-border p-6">
+         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/20 via-card to-accent/10 border border-border p-6 shadow-sm">
            <div className="relative z-10">
-             <h1 className="text-2xl md:text-3xl font-display font-bold mb-2">
+             <h1 className="text-2xl md:text-3xl font-display font-bold mb-2 text-foreground">
                {getProfileWelcome()}
              </h1>
              <p className="text-muted-foreground mb-4">{getProfileTip()}</p>
              
              {/* Lessons completed stat */}
-             <div className="flex items-center gap-3 bg-card/60 backdrop-blur rounded-xl p-3 w-fit">
+             <div className="flex items-center gap-3 bg-card/80 backdrop-blur-sm rounded-xl p-3 w-fit border border-border/50">
                <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center">
                  <BookOpen className="w-5 h-5 text-accent" />
                </div>
                <div>
-                 <p className="text-xl font-bold">{user?.lessonsCompleted}</p>
+                 <p className="text-xl font-bold">{user?.lessonsCompleted || 0}</p>
                  <p className="text-xs text-muted-foreground">Aulas Concluídas</p>
                </div>
              </div>
            </div>
- 
-           {/* Decorative elements */}
+
            <div className="absolute top-0 right-0 w-40 h-40 bg-primary/10 rounded-full blur-3xl" />
            <div className="absolute bottom-0 left-0 w-32 h-32 bg-accent/10 rounded-full blur-2xl" />
          </div>
          
-         {/* Rank Progress Card */}
          <RankProgress 
            points={user?.points || 0} 
            rank={(user?.rank || "D") as RankType}
@@ -155,7 +154,7 @@ const Dashboard = () => {
                 className={cn(
                   "block bg-card border border-border rounded-xl p-4 transition-all duration-200",
                   module.locked 
-                    ? "opacity-50 cursor-not-allowed" 
+                    ? "opacity-60 cursor-not-allowed" 
                     : "hover:border-primary/50 hover:shadow-glow-sm"
                 )}
               >
@@ -170,7 +169,7 @@ const Dashboard = () => {
                     <div className="flex items-center gap-2">
                       <p className="font-semibold">{module.title}</p>
                       {module.locked && (
-                        <span className="text-xs bg-muted px-2 py-0.5 rounded">Bloqueado</span>
+                        <span className="text-[10px] bg-muted px-2 py-0.5 rounded uppercase font-bold text-muted-foreground">Bloqueado</span>
                       )}
                     </div>
                     <p className="text-sm text-muted-foreground">
@@ -180,7 +179,7 @@ const Dashboard = () => {
                   <div className="text-right">
                     <p className={cn(
                       "text-sm font-semibold",
-                      module.progress === 100 ? "text-success" : "text-primary"
+                      module.progress === 100 ? "text-green-500" : "text-primary"
                     )}>
                       {module.progress}%
                     </p>
@@ -207,20 +206,20 @@ const Dashboard = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        className="grid grid-cols-2 gap-3"
+        className="grid grid-cols-2 gap-3 pb-8"
       >
-         <Link 
-           to="https://fun-ai-nine.vercel.app/"
-           className="bg-card border border-border rounded-xl p-4 hover:border-primary/50 transition-all duration-200 hover:shadow-glow-sm flex flex-col items-center gap-2"
-         >
-           <div className={cn(
-             "w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br",
-             RANK_CONFIG[(user?.rank || "D") as RankType].gradient
-           )}>
-             <span className="text-lg font-bold text-white">{user?.rank}</span>
-           </div>
-           <span className="text-sm font-medium">Agente Financeiro</span>
-         </Link>
+          <Link 
+            to="#" 
+            className="bg-card border border-border rounded-xl p-4 hover:border-primary/50 transition-all duration-200 hover:shadow-glow-sm flex flex-col items-center gap-2"
+          >
+            <div className={cn(
+              "w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br",
+              RANK_CONFIG[(user?.rank || "D") as RankType]?.gradient || "from-gray-400 to-gray-600"
+            )}>
+              <span className="text-lg font-bold text-white">{user?.rank || "D"}</span>
+            </div>
+            <span className="text-sm font-medium">Meu Ranking</span>
+          </Link>
         <Button
           variant="gradient"
           size="lg"
