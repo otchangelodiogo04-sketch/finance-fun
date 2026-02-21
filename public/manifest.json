@@ -1,7 +1,7 @@
 {
-  "name": "Finance",
-  "short_name": "Finance",
-  "description": "Educação Financeira para crianças, jovens e pais",
+  "name": "Fivora AI",
+  "short_name": "Fivora",
+  "description": "Educação Financeira inteligente para crianças, jovens e pais",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
