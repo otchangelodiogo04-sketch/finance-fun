@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Página Inicial -->
   <url>
     <loc>https://finance-fun-pi.vercel.app/</loc>
     <priority>1.0</priority>
     <changefreq>daily</changefreq>
   </url>
 
-  <!-- Páginas principais -->
   <url>
     <loc>https://finance-fun-pi.vercel.app/login</loc>
-    <priority>0.9</priority>
-    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
   </url>
 
   <url>
@@ -29,23 +26,27 @@
   </url>
 
   <url>
+    <loc>https://finance-fun-pi.vercel.app/dashboard/ranking</loc>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://finance-fun-pi.vercel.app/dashboard/perfil</loc>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
     <loc>https://fun-ai-nine.vercel.app/</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
 
-  <!-- Exemplos de posts de blog -->
-  <url>
-    <loc>https://finance-fun-pi.vercel.app/dashboard/ranking</loc>
-    <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
   <url>
     <loc>https://finance-fun-pi.vercel.app/dashboard/modulos/1/aula/1</loc>
-    <priority>0.7</priority>
+    <priority>0.5</priority>
     <changefreq>monthly</changefreq>
   </url>
-
 
 </urlset>
