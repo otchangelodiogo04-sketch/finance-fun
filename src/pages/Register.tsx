@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock, User, Calendar, Loader2, Baby, GraduationCap, Users, AlertCircle, Check } from "lucide-react";
@@ -10,6 +10,12 @@ import { lovable } from "@/integrations/lovable/index";
 import logo from "@/assets/logo.png";
 import { cn } from "@/lib/utils";
 
+const PROFILES: { id: UserProfile; label: string; icon: typeof Baby; description: string }[] = [
+  { id: "crianca", label: "Criança", icon: Baby, description: "Conteúdo simples e lúdico" },
+  { id: "jovem", label: "Jovem", icon: GraduationCap, description: "Finanças pessoais + investimentos" },
+  { id: "pais", label: "Pais", icon: Users, description: "Gestão familiar + stock" },
+];
+
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const passwordChecks = [
@@ -20,11 +26,13 @@ const passwordChecks = [
   { label: "Um carácter especial", test: (p: string) => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(p) },
 ];
 
+// Sanitize input to prevent XSS
 const sanitizeInput = (value: string): string => {
   return value.replace(/[<>]/g, '').trim();
 };
 
 const Register = () => {
+  const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -39,23 +47,7 @@ const Register = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Lógica para definir o perfil automaticamente com base na idade
-  useEffect(() => {
-    const ageNum = parseInt(age);
-    if (!isNaN(ageNum)) {
-      if (ageNum < 13) {
-        setProfile("crianca");
-      } else if (ageNum >= 13 && ageNum <= 18) {
-        setProfile("jovem");
-      } else {
-        setProfile("pais");
-      }
-    } else {
-      setProfile(null);
-    }
-  }, [age]);
-
-  const validate = (): boolean => {
+  const validateStep1 = (): boolean => {
     const newErrors: Record<string, string> = {};
 
     if (!emailRegex.test(email)) {
@@ -64,6 +56,8 @@ const Register = () => {
 
     if (username.trim().length < 3) {
       newErrors.username = "Nome de utilizador deve ter pelo menos 3 caracteres";
+    } else if (username.length > 20) {
+      newErrors.username = "Nome de utilizador deve ter no máximo 20 caracteres";
     } else if (!/^[a-zA-Z0-9_]+$/.test(username)) {
       newErrors.username = "Apenas letras, números e underscore";
     }
@@ -86,11 +80,28 @@ const Register = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleGoogleSignIn = async () => {
+    const { error } = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+    });
+    if (error) {
+      toast({ title: "Erro", description: error.message, variant: "destructive" });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validate()) return;
-    if (!profile) return;
+    if (step === 1) {
+      if (!validateStep1()) return;
+      setStep(2);
+      return;
+    }
+
+    if (!profile) {
+      toast({ title: "Erro", description: "Selecione um perfil.", variant: "destructive" });
+      return;
+    }
 
     setIsLoading(true);
 
@@ -103,8 +114,13 @@ const Register = () => {
     });
 
     if (result.success) {
-      toast({ title: "Conta criada!", description: "Bem-vindo ao Fivora AI!" });
-      navigate("/dashboard");
+      if (result.error) {
+        toast({ title: "Conta criada!", description: result.error });
+        navigate("/login");
+      } else {
+        toast({ title: "Conta criada!", description: "Bem-vindo ao Fivora AI!" });
+        navigate("/dashboard");
+      }
     } else {
       toast({ title: "Erro", description: result.error || "Não foi possível criar a conta.", variant: "destructive" });
     }
@@ -112,27 +128,12 @@ const Register = () => {
     setIsLoading(false);
   };
 
-  // Ícone visual do perfil baseado na idade
-  const ProfileBadge = () => {
-    if (!profile) return null;
-    const icons = {
-      crianca: { icon: Baby, label: "Perfil Criança", color: "text-blue-500" },
-      jovem: { icon: GraduationCap, label: "Perfil Jovem", color: "text-green-500" },
-      pais: { icon: Users, label: "Perfil Pais/Adulto", color: "text-purple-500" },
-    };
-    const active = icons[profile as keyof typeof icons];
-    return (
-      <div className={cn("flex items-center gap-2 mt-2 p-2 rounded-lg bg-primary/5 border border-primary/10", active.color)}>
-        <active.icon className="w-4 h-4" />
-        <span className="text-xs font-semibold uppercase tracking-wider">{active.label} detectado</span>
-      </div>
-    );
-  };
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background relative overflow-hidden">
+      {/* Background glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-primary/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-accent/5 rounded-full blur-[100px]" />
       </div>
 
       <motion.div
@@ -140,111 +141,180 @@ const Register = () => {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md relative z-10"
       >
+        {/* Logo */}
         <div className="flex flex-col items-center mb-8">
-          <a href="#"><motion.img src={logo} alt="Finance" className="w-20 h-20 mb-4" /></a>
+          <a href="https://finance-fun-pi.vercel.app/"><motion.img src={logo} alt="Finance" className="w-20 h-20 mb-4" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} /></a>
           <h1 className="text-3xl font-display font-bold text-gradient">Fivora AI</h1>
-          <p className="text-muted-foreground mt-1">Crie sua conta personalizada</p>
+          <p className="text-muted-foreground mt-1">Criar nova conta</p>
         </div>
 
+        {/* Steps indicator */}
+        <div className="flex items-center justify-center gap-2 mb-6">
+          {[1, 2].map((s) => (
+            <div key={s} className={cn("w-3 h-3 rounded-full transition-all duration-300", step >= s ? "bg-primary" : "bg-card")} />
+          ))}
+        </div>
+
+        {/* Form */}
         <motion.form
           onSubmit={handleSubmit}
           className="glass rounded-2xl p-6 md:p-8 space-y-5"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          key={step}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -20 }}
         >
-          {/* Email */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Email</label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-              <Input
-                type="email"
-                placeholder="seu@email.com"
-                value={email}
-                onChange={(e) => { setEmail(e.target.value); setErrors((p) => ({ ...p, email: "" })); }}
-                className={cn("pl-10", errors.email && "border-destructive")}
-                required
-              />
-            </div>
-            {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
-          </div>
+          {step === 1 ? (
+            <>
+              {/* Email */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Email</label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <Input
+                    type="email"
+                    placeholder="seu@gmail.com"
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); setErrors((p) => ({ ...p, email: "" })); }}
+                    className={cn("pl-10", errors.email && "border-destructive")}
+                    required
+                  />
+                </div>
+                {errors.email && <p className="text-xs text-destructive flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.email}</p>}
+              </div>
 
-          {/* Username */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Nome de utilizador</label>
-            <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Ex: FinancePro"
-                value={username}
-                onChange={(e) => { setUsername(sanitizeInput(e.target.value)); setErrors((p) => ({ ...p, username: "" })); }}
-                className={cn("pl-10", errors.username && "border-destructive")}
-                required
-              />
-            </div>
-          </div>
+              {/* Username */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Nome de utilizador</label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="FinancePro"
+                    value={username}
+                    onChange={(e) => { setUsername(sanitizeInput(e.target.value)); setErrors((p) => ({ ...p, username: "" })); }}
+                    className={cn("pl-10", errors.username && "border-destructive")}
+                    required
+                    maxLength={20}
+                  />
+                </div>
+                {errors.username && <p className="text-xs text-destructive flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.username}</p>}
+              </div>
 
-          {/* Age & Auto-Profile Detection */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Idade</label>
-            <div className="relative">
-              <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-              <Input
-                type="number"
-                placeholder="Sua idade"
-                value={age}
-                onChange={(e) => { setAge(e.target.value); setErrors((p) => ({ ...p, age: "" })); }}
-                className={cn("pl-10", errors.age && "border-destructive")}
-                required
-              />
-            </div>
-            {errors.age && <p className="text-xs text-destructive">{errors.age}</p>}
-            <ProfileBadge />
-          </div>
+              {/* Password */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Senha</label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => { setPassword(e.target.value); setErrors((p) => ({ ...p, password: "" })); }}
+                    className={cn("pl-10 pr-10", errors.password && "border-destructive")}
+                    required
+                  />
+                  <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                </div>
+                {/* Password strength indicators */}
+                {password.length > 0 && (
+                  <div className="grid grid-cols-2 gap-1 mt-1">
+                    {passwordChecks.map((check) => (
+                      <div key={check.label} className={cn("text-xs flex items-center gap-1", check.test(password) ? "text-green-500" : "text-muted-foreground")}>
+                        {check.test(password) ? <Check className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
+                        {check.label}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
 
-          {/* Password */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Senha</label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-              <Input
-                type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => { setPassword(e.target.value); setErrors((p) => ({ ...p, password: "" })); }}
-                className={cn("pl-10", errors.password && "border-destructive")}
-                required
-              />
-              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2">
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-              </button>
-            </div>
-          </div>
+              {/* Confirm Password */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Confirmar senha</label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    value={confirmPassword}
+                    onChange={(e) => { setConfirmPassword(e.target.value); setErrors((p) => ({ ...p, confirmPassword: "" })); }}
+                    className={cn("pl-10", errors.confirmPassword && "border-destructive")}
+                    required
+                  />
+                </div>
+                {errors.confirmPassword && <p className="text-xs text-destructive flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.confirmPassword}</p>}
+              </div>
 
-          {/* Confirm Password */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Confirmar senha</label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-              <Input
-                type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
-                value={confirmPassword}
-                onChange={(e) => { setConfirmPassword(e.target.value); setErrors((p) => ({ ...p, confirmPassword: "" })); }}
-                className={cn("pl-10", errors.confirmPassword && "border-destructive")}
-                required
-              />
-            </div>
-          </div>
+              {/* Age */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Idade</label>
+                <div className="relative">
+                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <Input
+                    type="number"
+                    placeholder="25"
+                    value={age}
+                    onChange={(e) => { setAge(e.target.value); setErrors((p) => ({ ...p, age: "" })); }}
+                    className={cn("pl-10", errors.age && "border-destructive")}
+                    required
+                    min={5}
+                    max={100}
+                  />
+                </div>
+                {errors.age && <p className="text-xs text-destructive flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.age}</p>}
+              </div>
 
-          <Button type="submit" variant="gradient" size="lg" className="w-full" disabled={isLoading}>
-            {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Criar Conta"}
-          </Button>
+              <Button type="submit" variant="gradient" size="lg" className="w-full">
+                Continuar
+              </Button>
+            </>
+          ) : (
+            <>
+              {/* Profile selection */}
+              <div className="space-y-3">
+                <label className="text-sm font-medium">Escolha o seu perfil</label>
+                <div className="space-y-3">
+                  {PROFILES.map((p) => (
+                    <button
+                      key={p.id}
+                      type="button"
+                      onClick={() => setProfile(p.id)}
+                      className={cn(
+                        "w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-200",
+                        profile === p.id ? "border-primary bg-primary/10" : "border-border bg-card hover:border-primary/50"
+                      )}
+                    >
+                      <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center", profile === p.id ? "bg-primary text-primary-foreground" : "bg-muted")}>
+                        <p.icon className="w-6 h-6" />
+                      </div>
+                      <div className="text-left">
+                        <p className="font-semibold">{p.label}</p>
+                        <p className="text-sm text-muted-foreground">{p.description}</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <Button type="button" variant="outline" size="lg" className="flex-1" onClick={() => setStep(1)}>
+                  Voltar
+                </Button>
+                <Button type="submit" variant="gradient" size="lg" className="flex-1" disabled={isLoading || !profile}>
+                  {isLoading ? (<><Loader2 className="w-5 h-5 animate-spin" />A criar...</>) : "Criar Conta"}
+                </Button>
+              </div>
+            </>
+          )}
         </motion.form>
 
+        {/* Login link */}
         <p className="text-center mt-6 text-muted-foreground">
-          Já tem conta? <Link to="/login" className="text-primary font-medium hover:underline">Entrar</Link>
+          Já tem conta?{" "}
+          <Link to="/login" className="text-primary font-medium hover:underline">Entrar</Link>
         </p>
       </motion.div>
     </div>
