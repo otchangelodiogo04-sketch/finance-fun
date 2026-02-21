@@ -1,11 +1,11 @@
-# 💚 Finance  
+# 💚 Fivora  
 ### Aplicativo Web de Educação Financeira Gamificada
 
 ---
 
 ## 📌 Visão Geral
 
-**Finance** é um aplicativo web de **educação financeira gamificada**, criado para ensinar finanças de forma prática, progressiva e acessível a **crianças, jovens e pais**.
+**Fivora** é um aplicativo web de **educação financeira gamificada**, criado para ensinar finanças de forma prática, progressiva e acessível a **crianças, jovens e pais**.
 
 O projeto é **mobile-first**, compatível com desktop e utiliza um **design moderno dark + verde**.
 
@@ -161,19 +161,19 @@ O projeto é **mobile-first**, compatível com desktop e utiliza um **design mod
 - HTML  
 - CSS  
 - JavaScript  
-- SQLite  
+- Supabase 
 
 ---
 
 ## 📄 Licença
 
-Projeto com finalidade educacional.
+Projeto com finalidade financeira.
 
 ---
 
 ## 👨‍💻 Autor
 
 **Otchangelodiogo**  
-Projeto: **Finance**
+Projeto: **Fivora**
 
 ---
