@@ -36,6 +36,7 @@ const DashboardLayout = () => {
     { to: "/dashboard/modulos", icon: BookOpen, label: "Módulos" },
     { to: "/dashboard/ranking", icon: Trophy, label: "Ranking" },
     { to: "/dashboard/perfil", icon: User, label: "Perfil" },
+    { to: "https://fun-ai-nine.vercel.app/", icon: Target, Trophy: "Agente IA" },
   ];
 
   // Add profile-specific items
