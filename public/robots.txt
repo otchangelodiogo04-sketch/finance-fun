@@ -4,7 +4,6 @@
 User-agent: *
 # Bloquear pastas privadas ou sensíveis
 Disallow: /src/
-Disallow: /public/
 Disallow: /supabase/
 
 
