@@ -19,7 +19,7 @@ import { useAdminCheck } from "@/hooks/useAdminCheck";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
  import { RANK_CONFIG, RankType, getProgressToNextRank } from "@/components/RankProgress";
-import { Label } from "./ui/label";
+import { Label } from "../ui/label";
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

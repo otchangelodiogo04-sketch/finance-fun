@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth, UserProfile } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { lovable } from "@/integrations/lova/index";
+import { lovable } from "@/integrations/lovable/index";
 import logo from "@/assets/logo.png";
 import { cn } from "@/lib/utils";
 

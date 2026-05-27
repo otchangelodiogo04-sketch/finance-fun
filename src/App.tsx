@@ -8,7 +8,7 @@ import { AuthProvider, useAuth } from "@/context/AuthContext";
 
 // Components
 import SplashScreen from "@/components/SplashScreen";
-import DashboardLayout from "@/components/layout/DashboardLayout";
+import DashboardLayout from "@/layout/DashboardLayout";
 
 // Pages
 import Index from "./pages/Index";

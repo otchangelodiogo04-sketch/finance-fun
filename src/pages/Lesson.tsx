@@ -424,9 +424,6 @@ const Lesson = () => {
         </div>
       </motion.div>
 
-      {/* ANÚNCIO 1: TOPO (Banner Fixo) */}
-      <AdsterraElement scriptSrc="https://pl28732098.effectivegatecpm.com/54/12/76/541276d4b5fce0f41a042b01ea43858e.js" />
-
       {/* Content Area */}
       <AnimatePresence mode="wait">
         {!showQuiz ? (
@@ -441,11 +438,6 @@ const Lesson = () => {
               <p className="text-lg leading-relaxed">{lesson.content[currentPage]}</p>
             </div>
 
-            {/* ANÚNCIO 2: DENTRO DO CONTEÚDO (Script Invoke) */}
-            <AdsterraElement 
-              containerId="d4dce3f93652c4b3a7c47751f5f525c8" 
-              scriptSrc="https://pl28742564.effectivegatecpm.com/d4dce3f93652c4b3a7c47751f5f525c8/invoke.js" 
-            />
           </motion.div>
         ) : !quizCompleted ? (
           <motion.div
@@ -493,9 +485,6 @@ const Lesson = () => {
             <h2 className="text-2xl font-bold mb-2">Quiz Concluído!</h2>
             <p className="text-muted-foreground mb-4">Acertaste {score} de {lesson.quiz!.length}</p>
             
-            {/* ANÚNCIO 4: TELA FINAL (Recarregando Banner Principal) */}
-            <AdsterraElement scriptSrc="https://pl28732098.effectivegatecpm.com/54/12/76/541276d4b5fce0f41a042b01ea43858e.js" />
-
             <div className="flex gap-3 justify-center mt-6">
               {score < lesson.quiz!.length && (
                 <Button variant="outline" onClick={handleRetryQuiz}><RotateCcw className="w-4 h-4 mr-2" /> Tentar de novo</Button>
