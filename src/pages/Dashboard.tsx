@@ -44,8 +44,8 @@ const AdComponent = ({ id, scriptSrc, config }: { id?: string, scriptSrc: string
 };
 
 const MODULES = [
-  { id: 1, title: "Fundamentos", progress: 75, lessons: 6, completed: 4 },
-  { id: 2, title: "Orçamento", progress: 30, lessons: 6, completed: 2 },
+  { id: 1, title: "Fundamentos", progress: 0, lessons: 6, completed: 4 },
+  { id: 2, title: "Orçamento", progress: 0, lessons: 6, completed: 2 },
   { id: 3, title: "Poupança", progress: 0, lessons: 6, completed: 0, locked: true },
   { id: 4, title: "Investimentos", progress: 0, lessons: 6, completed: 0, locked: true },
 ];
@@ -73,20 +73,6 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto pb-10">
-      
-      {/* 1º ANÚNCIO: Banner Lateral/Topo (Iframe 160x600 adaptado) */}
-      <div className="hidden lg:block fixed left-4 top-24">
-         <AdComponent 
-            scriptSrc="https://www.highperformanceformat.com/4fec2a0ad6a72672d864205367950127/invoke.js"
-            config={{
-              'key' : '4fec2a0ad6a72672d864205367950127',
-              'format' : 'iframe',
-              'height' : 600,
-              'width' : 160,
-              'params' : {}
-            }}
-         />
-      </div>
 
       {/* Welcome section */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
@@ -109,9 +95,6 @@ const Dashboard = () => {
         
         <RankProgress points={user?.points || 0} rank={(user?.rank || "D") as RankType} variant="card" />
       </motion.div>
-
-      {/* 2º ANÚNCIO: Script Direto entre seções */}
-      <AdComponent scriptSrc="https://pl28732098.effectivegatecpm.com/54/12/76/541276d4b5fce0f41a042b01ea43858e.js" />
 
       {/* Continue learning */}
       <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
@@ -141,11 +124,6 @@ const Dashboard = () => {
         </Link>
       </motion.section>
 
-      {/* 3º ANÚNCIO: Formato com ID de Container */}
-      <AdComponent 
-        id="d4dce3f93652c4b3a7c47751f5f525c8" 
-        scriptSrc="https://pl28742564.effectivegatecpm.com/d4dce3f93652c4b3a7c47751f5f525c8/invoke.js" 
-      />
 
       {/* Modules progress */}
       <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
@@ -186,12 +164,9 @@ const Dashboard = () => {
         </div>
       </motion.section>
 
-      {/* 4º ANÚNCIO: Rodapé */}
-      <AdComponent scriptSrc="https://pl28732098.effectivegatecpm.com/54/12/76/541276d4b5fce0f41a042b01ea43858e.js" />
-
       {/* Quick actions */}
       <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="grid grid-cols-2 gap-3">
-         <Link to="https://fun-ai-nine.vercel.app/" className="bg-card border border-border rounded-xl p-4 hover:border-primary/50 transition-all duration-200 hover:shadow-glow-sm flex flex-col items-center gap-2">
+         <Link to="https://fivora.otchangelodiogo04.workers.dev/" className="bg-card border border-border rounded-xl p-4 hover:border-primary/50 transition-all duration-200 hover:shadow-glow-sm flex flex-col items-center gap-2">
            <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br", RANK_CONFIG[(user?.rank || "D") as RankType].gradient)}>
              <span className="text-lg font-bold text-white">{user?.rank}</span>
            </div>

@@ -161,7 +161,7 @@ const Index = () => {
               ))}
             </div>
             <Button variant="gradient" size="lg" asChild className="mt-8">
-              <Link to="/ai-agent">Experimente o Agente AI <ChevronRight className="w-5 h-5 ml-2" /></Link>
+              <Link to="https://fivora.otchangelodiogo04.workers.dev/">Experimente o Agente AI <ChevronRight className="w-5 h-5 ml-2" /></Link>
             </Button>
           </motion.div>
           <motion.img src={agentImg} alt="Agente AI" className="rounded-3xl shadow-2xl w-full" initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} />

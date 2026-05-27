@@ -243,7 +243,7 @@ const CashFlow = () => {
                 "font-semibold",
                 transaction.type === "income" ? "text-success" : "text-destructive"
               )}>
-                {transaction.type === "income" ? "+" : "-"}{transaction.amount.toFixed(2)}€
+                {transaction.type === "income" ? "+" : "-"}{transaction.amount.toFixed(2)}AOA
               </p>
             </motion.div>
           ))}

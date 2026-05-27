@@ -19,6 +19,7 @@ import { useAdminCheck } from "@/hooks/useAdminCheck";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
  import { RANK_CONFIG, RankType, getProgressToNextRank } from "@/components/RankProgress";
+import { Label } from "./ui/label";
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -36,7 +37,7 @@ const DashboardLayout = () => {
     { to: "/dashboard/modulos", icon: BookOpen, label: "Módulos" },
     { to: "/dashboard/ranking", icon: Trophy, label: "Ranking" },
     { to: "/dashboard/perfil", icon: User, label: "Perfil" },
-    { to: "https://fun-ai-nine.vercel.app/", icon: User, Trophy: "Agente IA" },
+    { to: "https://fivora.otchangelodiogo04.workers.dev/", icon: User, Label: "Agente IA" },
   ];
 
   // Add profile-specific items
